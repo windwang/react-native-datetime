@@ -1,5 +1,6 @@
 # React Native DateTime
 A datetime-picker for react-native support for android and ios(base on @remobile/react-native-datetime-picker)
+This is only fixed so that it would be compatible with RN 0.29+. Visit https://github.com/cnjon/react-native-datetime for the original.
 
 ## Installation
 ```sh
