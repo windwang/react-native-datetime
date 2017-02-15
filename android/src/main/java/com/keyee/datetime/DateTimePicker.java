@@ -30,6 +30,7 @@ import com.facebook.react.bridge.ReadableMap;
 public class DateTimePicker extends DialogFragment implements OnDateChangedListener,OnTimeChangedListener,DialogInterface.OnClickListener
 {
     static final String TAG = DateTimePicker.class.getSimpleName();
+    private ReadableMap options;
     private Callback callback;
 
     private LinearLayout dateTimeLayout;
@@ -43,7 +44,9 @@ public class DateTimePicker extends DialogFragment implements OnDateChangedListe
 
     private Calendar calendar;
 
+
     public DateTimePicker(ReadableMap options, Callback callback) {
+        this.options = options;
         this.callback = callback;
         calendar = Calendar.getInstance();
         cancelText = options.getString("cancelText");
@@ -63,6 +66,7 @@ public class DateTimePicker extends DialogFragment implements OnDateChangedListe
         if (options.hasKey("minute")) {
             calendar.set(Calendar.MINUTE, options.getInt("minute"));
         }
+
     }
 
     private void initializePickers(){
@@ -77,6 +81,14 @@ public class DateTimePicker extends DialogFragment implements OnDateChangedListe
         timePicker.setCurrentMinute(calendar.get(Calendar.MINUTE));
     }
 
+    private boolean is24Hour() {
+        if (options.hasKey("is24Hour")) {
+            return options.getBoolean("is24Hour");
+        } else {
+            return DateFormat.is24HourFormat(getActivity());
+        }
+    }
+
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         if (datePicker == null){
@@ -85,7 +97,7 @@ public class DateTimePicker extends DialogFragment implements OnDateChangedListe
         }
         if (timePicker == null){
             timePicker = new TimePicker(this.getActivity());
-            timePicker.setIs24HourView(DateFormat.is24HourFormat(getActivity()));
+            timePicker.setIs24HourView(is24Hour());
             timePicker.setOnTimeChangedListener(this);
         }
         if (dateTimeLayout == null){
