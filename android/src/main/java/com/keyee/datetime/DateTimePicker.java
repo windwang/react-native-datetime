@@ -1,5 +1,6 @@
 package com.keyee.datetime;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.DialogFragment;
@@ -25,6 +26,7 @@ import java.text.SimpleDateFormat;
 import com.facebook.react.bridge.Callback;
 import com.facebook.react.bridge.ReadableMap;
 
+@SuppressLint("ValidFragment")
 public class DateTimePicker extends DialogFragment implements OnDateChangedListener,OnTimeChangedListener,DialogInterface.OnClickListener
 {
     static final String TAG = DateTimePicker.class.getSimpleName();
@@ -113,6 +115,8 @@ public class DateTimePicker extends DialogFragment implements OnDateChangedListe
     }
 
     public void onClick(DialogInterface dialog, int whichButton) {
+        onDateChanged(datePicker, datePicker.getYear(), datePicker.getMonth(), datePicker.getDayOfMonth());
+        onTimeChanged(timePicker, timePicker.getCurrentHour(), timePicker.getCurrentMinute());
         this.callback.invoke(
             calendar.get(Calendar.YEAR),
             calendar.get(Calendar.MONTH),
