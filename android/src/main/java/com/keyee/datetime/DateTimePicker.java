@@ -71,10 +71,10 @@ public class DateTimePicker extends DialogFragment implements OnDateChangedListe
 
     private void initializePickers(){
         datePicker.init(
-            calendar.get(Calendar.YEAR),
-            calendar.get(Calendar.MONTH),
-            calendar.get(Calendar.DAY_OF_MONTH),
-            this
+                calendar.get(Calendar.YEAR),
+                calendar.get(Calendar.MONTH),
+                calendar.get(Calendar.DAY_OF_MONTH),
+                this
         );
         datePicker.setCalendarViewShown(false);
         timePicker.setCurrentHour(calendar.get(Calendar.HOUR_OF_DAY));
@@ -92,18 +92,18 @@ public class DateTimePicker extends DialogFragment implements OnDateChangedListe
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         if (datePicker == null){
-            datePicker = new ScrollableDatePicker(this.getActivity());
+            datePicker = new DatePicker(this.getActivity(),null,0,0);
             datePicker.setCalendarViewShown(false);
         }
         if (timePicker == null){
-            timePicker = new TimePicker(this.getActivity());
+            timePicker = new TimePicker(this.getActivity(),null,0,0);
             timePicker.setIs24HourView(is24Hour());
             timePicker.setOnTimeChangedListener(this);
         }
         if (dateTimeLayout == null){
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.FILL_PARENT,
-                LinearLayout.LayoutParams.FILL_PARENT
+                    LinearLayout.LayoutParams.FILL_PARENT,
+                    LinearLayout.LayoutParams.FILL_PARENT
             );
             dateTimeLayout = new LinearLayout(this.getActivity());
             dateTimeLayout.setLayoutParams(params);
@@ -117,12 +117,12 @@ public class DateTimePicker extends DialogFragment implements OnDateChangedListe
         }
         initializePickers();
         ad = new AlertDialog.Builder(this.getActivity())
-            .setTitle(getFormattedDateTime())
-            .setView(dateTimeScrollView)
-            .setPositiveButton(okText, this)
-            .setNegativeButton(cancelText, new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int whichButton) {}
-            }).show();
+                .setTitle(getFormattedDateTime())
+                .setView(dateTimeScrollView)
+                .setPositiveButton(okText, this)
+                .setNegativeButton(cancelText, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {}
+                }).show();
         return ad;
     }
 
@@ -130,11 +130,11 @@ public class DateTimePicker extends DialogFragment implements OnDateChangedListe
         onDateChanged(datePicker, datePicker.getYear(), datePicker.getMonth(), datePicker.getDayOfMonth());
         onTimeChanged(timePicker, timePicker.getCurrentHour(), timePicker.getCurrentMinute());
         this.callback.invoke(
-            calendar.get(Calendar.YEAR),
-            calendar.get(Calendar.MONTH),
-            calendar.get(Calendar.DAY_OF_MONTH),
-            calendar.get(Calendar.HOUR_OF_DAY),
-            calendar.get(Calendar.MINUTE)
+                calendar.get(Calendar.YEAR),
+                calendar.get(Calendar.MONTH),
+                calendar.get(Calendar.DAY_OF_MONTH),
+                calendar.get(Calendar.HOUR_OF_DAY),
+                calendar.get(Calendar.MINUTE)
         );
     }
 
